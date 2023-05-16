@@ -1,0 +1,36 @@
+Function generatesimPr:
+
+Inputs: hrx, cal_rx_ang_a
+Output: sim
+
+Initialize a counter n to 0 % n is number of reference points
+
+For each value i in the range 0 to 5 with steps of 0.5:
+    For each value j in the range 0 to 5 with steps of 0.5: % the size of the positioning area
+        Increment n by 1
+        Set Pt 
+        Define the coordinates A, B, C, D of four LEDs
+        Define Rx as the coordinate [i, j]
+        Define H as an array of 4 heights, each of which is 3 - hrx
+
+        Call function pr_los with parameters: n, cal_rx_ang_a, noi, Pt, A, B, C, D, Rx, H
+        Store the returned values in variables: Adata_los, Bdata_los, Cdata_los, Ddata_los, simPr[n, :], rx_ang_fin_a
+
+        Define some parameters: theta, Adet, ang_min, ang_max % characteristics of OWC
+        Generate an array r of 10000 random numbers within the range [ang_min, ang_max] 
+
+        Calculate cos_rxa, cos_rxb, cos_rxc, cos_rxd using the value of r % to get random angle of receiver
+        Calculate Hlos_a, Hlos_b, Hlos_c, Hlos_d using the values of cos_rxa, cos_rxb, cos_rxc, cos_rxd % calculate received signal power of LoS channel
+
+        Generate an array w from 0 to 10 with steps of 0.1, and calculate sig as 2*sin(w)
+        Add white Gaussian noise to sig to get sig_noise % use AWGN to generate white noise
+
+        Calculate Pr_a1, Pr_b1, Pr_c1, Pr_d1 by multiplying Hlos_a, Hlos_b, Hlos_c, Hlos_d with Pt and adding sig_noise % calculate final received signal power
+
+        Store the values of i, j, Pr_a1, Pr_b1, Pr_c1, Pr_d1 in sim[n, 1], sim[n, 2], sim[n, 3], sim[n, 4], sim[n, 5], sim[n, 6] 
+
+End loops
+
+Return sim
+
+End function

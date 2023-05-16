@@ -1,0 +1,31 @@
+Function step3:
+Inputs: Pr, m_csv, g_csv, hrx, tM
+Outputs: result_d, X
+  Load trained model from file tM % Here, we use the toolbox in Matlab: Classifier to train models and saved as trainedModel.mat
+  Predict p_mg using Pr % input pr to model tM and get predicted output as p_mg
+
+  Set pt
+  Set H to 3 - hrx % calculate vertical distance between transmitters and receiver
+
+  Set Rx as receiver's real coordinate % only to calculate pe but not used in positioning process
+  Set pra, prb, prc, prd from Pr % seperate the received signal power of each LED from the array Pr
+
+  Set ma, mb, mc, md from m_csv % load m value from csv file, from Step1
+  Set ga, gb, gc, gd from g_csv % load G value from csv file, from Step1
+
+  Calculate da_esti using cal_1r function with input pt, pra, ma, ga, H 
+  Calculate db_esti using cal_1r function with input pt, prb, mb, gb, H
+  Calculate dc_esti using cal_1r function with input pt, prc, mc, gc, H
+  Calculate dd_esti using cal_1r function with input pt, prd, md, gd, H % calculate distances between transmitters and receiver using proposed environment-aware algorithm using m and G
+
+  Calculate estimated position X using with input A, B, C, D, ra_test, rb_test, rc_test, rd_test % calculate Euclidean distance between transmitters and receiver
+  Calculate error_fin_test as the Euclidean distance between estimated position and real position % pe
+
+  Save real position, estimated position, and error_fin_test in result_d
+  Save da_esti, db_esti, dc_esti, dd_esti in result_d
+
+  Return result_d and X
+End Function
+
+
+

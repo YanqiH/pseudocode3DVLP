@@ -1,0 +1,29 @@
+set candidate heights
+
+Set pt % transmitted signal power
+Set n % number of reference points in each height
+Set sureh % the estimated height of receiver in this simulation
+Set ret % repeat times in height estimation
+Set cal_rx_ang_a % range of receiver's angle
+Set real_h % real height of receiver % only used for calculate pe but not use in positioning process
+
+Read several CSV files containing values for m0, m4, m8, m12, m16, m200, G0, G4, G8, G12, G16, G200 % Step1: load CSV files including the value of lambdas, calculated from our previous publication 
+
+
+for each index i from 1 to n: % iteration each reference point
+    
+    for each retimes from 1 to ret: % repeat height estimation process if needed
+        Generate preparerandomh using the function generatesimPr with hrx and cal_rx_ang_a as parameters % generate received signal power from each LED
+
+        Get diff_0, diff_4, diff_8, diff_12, diff_16, diff_200 using function step2 with several parameters including preparerandomh[i, :], m0, m4, m8, m12, m16, m200, G0, G4, G8, G12, G16, G200 % Step 1: input m and G in each candidate height and calculate distances diff_ of transmitters and receiver (in code it is in step2, but in paper it is step1)
+
+        Calculate diff_levels[retimes, :] and abs_diff[retimes, :]  
+        Get pred_h using min function on abs_diff[retimes, :] % Step2: considere the height which can cause the min difference as estimated height of receiver: pred_h
+
+
+    Based on the value of pred_h_index, assign corresponding values to pred_m, pred_G, and pred_h % get m and G values from pred_h
+
+    Get result(est_x,est_y,pred_h,pe) using function step4 with i, preparerandomh[i, :], pred_h, pred_m, pred_G as parameters % Step3: 2D positioning in pred_h using 2D VLP algorithm from previous work (in code it is step4, in paper it is step3)
+
+
+Calculate pe_min_cm, pe_max_cm, pe_avg_cm using min, max, mean functions respectively on result(:) % calculate statistical results of pe 

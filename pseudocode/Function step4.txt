@@ -1,0 +1,19 @@
+Function step4:
+Inputs: measuredPr, pred_h, m, G
+Outputs: result
+  Set Pt
+  Set H to 3 - hrx % calculate vertical distance between transmitters and receiver
+  Set Rx as receiver's real coordinate % only to calculate pe but not used in positioning process
+
+  Calculate da using cal_r function with inputs measuredPr(4), Pt, G, m, H
+  Calculate db using cal_r function with inputs measuredPr(5), Pt, G, m, H
+  Calculate dc using cal_r function with inputs measuredPr(6), Pt, G, m, H
+  Calculate dd using cal_r function with inputs measuredPr(7), Pt, G, m, H % calculate distances between transmitters and receiver using proposed environment-aware algorithm using m and G
+
+  Calculate estimated position xe using inputs LED positions and da, db, dc, dd
+
+  Calculate prediction error pe as the Euclidean distance between estimated position and real position
+
+  Set result array including xe and pe
+  Return result
+End Function

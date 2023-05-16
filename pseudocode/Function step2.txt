@@ -1,0 +1,24 @@
+Function step2：
+Inputs: Pr, m0, m4, m8, m12, m16, m200, G0, G4, G8, G12, G16, G200 % m and G from previous work
+Output: diff_0, diff_4, diff_8, diff_12, diff_16, diff_200
+
+     For each hrx in [0, 0.4, 0.8, 1.2, 1.6, 2.0]:
+
+        Set corresponding tM based on hrx value.
+        Call step3(Pr, m, G, hrx, tM) to get results (result_d, X_estih).
+        Store X_estih and result_d for later use.
+
+    For each hrx in [0, 0.4, 0.8, 1.2, 1.6, 2.0]:
+
+        Calculate estimated distances from each point (A, B, C, D) to the estimated Rx position.
+        
+    Calculate real distances from each point (A, B, C, D) to the real Rx position Pr.
+
+    For each hrx in [0, 0.4, 0.8, 1.2, 1.6, 2.0]:
+
+        Calculate the difference between the estimated distances and the distances calculated from the estimated Rx position.
+        Compute variance and standard deviation of these differences.
+        Sum the absolute values of these differences.
+
+    Return diff_0, diff_4, diff_8, diff_12, diff_16, diff_200
+End Function
